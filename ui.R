@@ -1,9 +1,20 @@
 library(googleVis)
 library(shiny)
+library(dplyr)
+library(magrittr)
+library(DT)
+library(car)
 
 # Load the data file
 df <- read.csv("data/Beatles_Live_Performances.csv", stringsAsFactors = FALSE)
-df$Date <- as.Date(df$Date)
+
+# Prepare data frame for app
+df$rMonth <- recode(df$Month, "'Jan'='01'; 'Feb'='02'; 'Mar'='03'; 
+                     'Apr' = '04'; 'May'='05'; 'Jun' = '06'; 'Jul'='07'; 
+                    'Aug'='08'; 'Sep'='09'; 'Oct'='10'; 'Nov'='11'; 
+                    'Dec'='12'")
+df$rDay <- sprintf("%02d", df$Day)
+df$Date <- as.Date(paste0(df$rMonth, "/", df$rDay, "/", df$Year), format = "%m/%d/%Y")
 
 # Define UI for application that displays map of venues where the Beatles 
 # performed and provide a searchable database. 
@@ -75,7 +86,9 @@ shinyUI(fluidPage(
         three Ed Sullivan Show live appearances in February 1964 and August 1965. 
         Moreover, when the Beatles played two shows at the same venue on a given 
         day, these are not listed separately. If they played at two different 
-        venues on the same day, both performances are listed.")
+        venues on the same day, both performances are listed. One venue, the Liverpool
+        Jazz Society, was renamed the Storyville Jazz Club. Thus it is listed as
+        two different venues in the database, but not on the map.")
     ),
     column(8,
            

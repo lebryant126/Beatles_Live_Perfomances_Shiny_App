@@ -9,13 +9,13 @@ library(car)
 df <- read.csv("data/Beatles_Live_Performances.csv", stringsAsFactors = FALSE)
 
 # Prepare the data frame for the app
-df$Date <- as.Date(df$Date)
-df$Tip <- paste0(df$Venue, "<BR>", df$Place, ", ", df$Country)
 df$rMonth <- recode(df$Month, "'Jan'='01'; 'Feb'='02'; 'Mar'='03'; 
                      'Apr' = '04'; 'May'='05'; 'Jun' = '06'; 'Jul'='07'; 
-                     'Aug'='08'; 'Sep'='09'; 'Oct'='10'; 'Nov'='11'; 
-                     'Dec'='12'")
+                    'Aug'='08'; 'Sep'='09'; 'Oct'='10'; 'Nov'='11'; 
+                    'Dec'='12'")
 df$rDay <- sprintf("%02d", df$Day)
+df$Date <- as.Date(paste0(df$rMonth, "/", df$rDay, "/", df$Year), format = "%m/%d/%Y")
+df$Tip <- paste0(df$Venue, "<BR>", df$Place, ", ", df$Country)
 df$Day <- paste0('<a href="http://www.beatlesbible.com/', df$Year, '/', 
                    df$rMonth, '/', df$rDay, '"', ' target="_blank">', 
                    as.character(df$Date), '</a>')
@@ -41,7 +41,7 @@ shinyServer(function(input, output, session) {
     
     # Determine number of venues selected
     venues_num <- reactive({
-      dataset() %>% distinct(Venue, Place, Country) %>% nrow
+      dataset() %>% distinct(LatLng) %>% nrow
     })
     
     # Determine number of cities selected
