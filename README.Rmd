@@ -1,0 +1,17 @@
+---
+title: "Beatles' Live Performances Shiny App"
+author: "Lance Bryant"
+date: "June 16, 2015"
+output: html_document
+---
+
+With this app you can explore the Beatles' live performances from August 1960 to 
+August 1966. The features of this app include:
+
+- An interactive map displaying the venues where the Beatles performed during 
+the date range selected by the user.
+- A searchable database consisting of every live performance during the date range
+selected by the user that can be filtered by venue, city, and country. There is 
+also a search bar that finds the entered term anywhere in the database.
+- A clickable day column that takes the user to the Beatles Bible website to learn
+more about the venue and other Beatle-related events.
